@@ -1,4 +1,5 @@
 # coding=utf-8
+import random
 
 
 def swap(lyst, i, j):
@@ -95,8 +96,66 @@ def insertion_sort(lyst):
     return lyst
 
 
+def quick_sort(lyst):
+    """
+    快排
+    :param lyst:
+    :return:
+    """
+    quick_sort_helper(lyst, 0, len(lyst) - 1)
+
+
+def quick_sort_helper(lyst, left, right):
+    """
+    快排递归
+    :param lyst:
+    :param left:
+    :param right:
+    :return:
+    """
+    if left < right:
+        pivot_location = partition(lyst, left, right)
+        quick_sort_helper(lyst, left, pivot_location - 1)
+        quick_sort_helper(lyst, pivot_location + 1, right)
+
+
+def partition(lyst, left, right):
+    """
+    切割
+    :param lyst:
+    :param left:
+    :param right:
+    :return:
+    """
+    # Find the pivot and exchange it with the lalst item
+    middle = (left + right) // 2
+    pivot = lyst[middle]
+    lyst[middle] = lyst[right]
+    lyst[right] = pivot
+    # Set boundary point to first position
+    boundary = left
+    # Move items less than pivot to the left
+    for index in range(left, right):
+        if lyst[index] < pivot:
+            swap(lyst, index, boundary)
+            boundary += 1
+    # Exchange the pivot item and the boundary item
+    swap(lyst, right, boundary)
+    return boundary
+
+
+def main(size=20, sort=quick_sort):
+    lyst = []
+    for count in range(size):
+        lyst.append(random.randint(1, size + 1))
+    print(lyst)
+    sort(lyst)
+    print(lyst)
+
+
 if __name__ == '__main__':
     selection_sort([5, 3, 1, 2, 4])
     bubble_sort([5, 3, 1, 2, 4])
     bubble_sort_with_tweak([5, 3, 1, 2, 4])
     insertion_sort([5, 3, 1, 2, 4])
+    main()
