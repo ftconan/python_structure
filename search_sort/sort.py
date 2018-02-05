@@ -163,7 +163,6 @@ def merge_sort(lyst):
     """
     # copy_buffer = Array(len(lyst))
     copy_buffer = lyst
-    print copy_buffer
     merge_sort_helper(lyst, copy_buffer, 0, len(lyst) - 1)
 
 
@@ -216,6 +215,28 @@ def merge(lyst, copy_buffer, low, middle, high):
     for i in range(low, high + 1):
         lyst[i] = copy_buffer[i]
 
+
+def fib(n):
+    """
+    Fibonacci
+    :param n:
+    :return:
+    """
+    sum = 0
+    if n > 2:
+        first = 1
+        second = 1
+        sum = first + second
+        count = 3
+        while count <= n:
+            temp = first + second
+            first = second
+            second = temp
+            sum += temp
+            count += 1
+    return sum
+
+
 if __name__ == '__main__':
     selection_sort([5, 3, 1, 2, 4])
     bubble_sort([5, 3, 1, 2, 4])
@@ -223,3 +244,4 @@ if __name__ == '__main__':
     insertion_sort([5, 3, 1, 2, 4])
     main()
     merge_sort([5, 3, 1, 2, 4])
+    fib(1)
