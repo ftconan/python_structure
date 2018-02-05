@@ -1,5 +1,6 @@
 # coding=utf-8
 import random
+from _ctypes import Array
 
 
 def swap(lyst, i, j):
@@ -153,9 +154,72 @@ def main(size=20, sort=quick_sort):
     print(lyst)
 
 
+def merge_sort(lyst):
+    """
+    lyst       list being sorted
+    copy_buffer temporary space needed during merge
+    :param lyst:
+    :return:
+    """
+    # copy_buffer = Array(len(lyst))
+    copy_buffer = lyst
+    print copy_buffer
+    merge_sort_helper(lyst, copy_buffer, 0, len(lyst) - 1)
+
+
+def merge_sort_helper(lyst, copy_buffer, low, high):
+    """
+    :param lyst: list being sorted
+    :param copy_buffer: temp space needed during merge
+    :param low: bounds of sublist
+    :param high: bounds of sublist
+    :return:
+    """
+    if low < high:
+        middle = (low + high) // 2
+        merge_sort_helper(lyst, copy_buffer, low, middle)
+        merge_sort_helper(lyst, copy_buffer, middle + 1, high)
+        merge(lyst, copy_buffer, low, middle, high)
+
+
+def merge(lyst, copy_buffer, low, middle, high):
+    """
+    :param lyst: list that is being sorted
+    :param copy_buffer: temp space needed during the merge process
+    :param low: beginning of first sorted sublist
+    :param middle: end of first sorted sublist
+    :param high: end of second sorted sublist
+    :return:
+    """
+    # Initialize i1 and i2 to the first items in each sublist
+    i1 = low
+    i2 = middle + 1
+    # Interleave items from the sublists into the copy_buffer in such a way that order is maintained
+    for i in range(low, high + 1):
+        if i1 > middle:
+            # First sublist exhausted
+            copy_buffer[i] = lyst[i2]
+            i2 += 1
+        elif i2 > high:
+            # Second sublist exhausted
+            copy_buffer[i] = lyst[i1]
+            i1 += 1
+        elif lyst[i1] < lyst[i2]:
+            # Item in first sublist <
+            copy_buffer[i] = lyst[i2]
+        else:
+            # Item in second sublist <
+            copy_buffer[i] = lyst[i2]
+            i2 += 1
+
+    # Copy sorted items back to proper position in lyst
+    for i in range(low, high + 1):
+        lyst[i] = copy_buffer[i]
+
 if __name__ == '__main__':
     selection_sort([5, 3, 1, 2, 4])
     bubble_sort([5, 3, 1, 2, 4])
     bubble_sort_with_tweak([5, 3, 1, 2, 4])
     insertion_sort([5, 3, 1, 2, 4])
     main()
+    merge_sort([5, 3, 1, 2, 4])
