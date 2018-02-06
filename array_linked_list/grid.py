@@ -1,6 +1,6 @@
 # coding = utf-8
 
-from arrays import Array
+from array_linked_list.arrays import Array
 
 
 class Grid(object):
