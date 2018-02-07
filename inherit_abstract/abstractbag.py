@@ -16,6 +16,20 @@ class AbstractBag(object):
             for item in source_collection:
                 self.add(item)
 
+    def is_empty(self):
+        """
+        Returns True if len(self) == 0,or False otherwise.
+        :return:
+        """
+        return len(self) == 0
+
+    def __len__(self):
+        """
+        Returns the number of items in self.
+        :return:
+        """
+        return self.size
+
     def __add__(self, other):
         """
         Returns a new bag containing the contents of self and other.

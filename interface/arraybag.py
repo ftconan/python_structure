@@ -23,20 +23,6 @@ class ArrayBag(AbstractBag):
         self.items = Array(ArrayBag.DEFAULT_CAPACITY)
         AbstractBag.__init__(self, source_collection)
 
-    def is_empty(self):
-        """
-        Returns True if len(self) == 0,or False otherwise.
-        :return:
-        """
-        return len(self) == 0
-
-    def __len__(self):
-        """
-        Returns the number of items in self.
-        :return:
-        """
-        return self.size
-
     def __str__(self):
         """
         Returns the number of items in self.
@@ -54,16 +40,16 @@ class ArrayBag(AbstractBag):
             yield self.items[cursor]
             cursor += 1
 
-    def __add__(self, other):
-        """
-        Returns a new bag containing the contents or self and other
-        :param other:
-        :return:
-        """
-        result = ArrayBag(self)
-        for item in other:
-            result.add(item)
-        return result
+    # def __add__(self, other):
+    #     """
+    #     Returns a new bag containing the contents or self and other
+    #     :param other:
+    #     :return:
+    #     """
+    #     result = ArrayBag(self)
+    #     for item in other:
+    #         result.add(item)
+    #     return result
 
     def __eq__(self, other):
         """
