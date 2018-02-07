@@ -1,19 +1,18 @@
 # coding = utf-8
 
-from array_linked_list.arrays import Array
+from array_linked_list.node import Node
 
 
-class ArrayBag(object):
+class LinkedBag(object):
     """
-    An array-based bag implementation.
+    An link-based bag implementation.
     """
-    DEFAULT_CAPACITY = 10
     def __init__(self, source_collection=None):
         """
         Sets the initial state of self, which includes the contents of source_collection,
         if it's present.
         """
-        self.items = Array(ArrayBag.DEFAULT_CAPACITY)
+        self.items = None
         self.size = 0
         if source_collection:
             for item in source_collection:
@@ -45,10 +44,10 @@ class ArrayBag(object):
         Supports iterations over a view of self.
         :return:
         """
-        cursor = 0
-        while cursor < len(self):
-            yield self.items[cursor]
-            cursor += 1
+        cursor = self.items
+        while cursor is not None:
+            yield cursor.data
+            cursor = cursor.next
 
     def __add__(self, other):
         """
@@ -56,10 +55,8 @@ class ArrayBag(object):
         :param other:
         :return:
         """
-        result = ArrayBag(self)
-        for item in other:
-            result.add(item)
-        return result
+        self.items = Node(other, self.items)
+        self.size += 1
 
     def __eq__(self, other):
         """
@@ -82,7 +79,7 @@ class ArrayBag(object):
         :return:
         """
         self.size = 0
-        self.items = Array(ArrayBag.DEFAULT_CAPACITY)
+        self.items = None
 
     def add(self, item):
         """
@@ -100,18 +97,20 @@ class ArrayBag(object):
         Postcondition: item is removed from self.
         :return:
         """
-        # Check precondition adn raise if necessary
-        if item not in self:
-            raise KeyError(str(item) + 'not in bag')
-        # Search for index of target item
-        target_index = 0
+        # Search for the node containing the target item
+        # probe will point to the target node
+        # trailer will point to the one before it, if it exists
+        probe = self.items
+        trailer = None
         for target_item in self:
             if target_item == item:
                 break
-            target_index += 1
-
-        # Shift items to the left of target up by one position
-        for i in range(target_index, len(self) - 1):
-            self.items[i] = self.items[i + 1]
+            trailer = probe
+            probe = probe.next
+        # Unhook te node to be deleted, either the first one or the one thereafter
+        if probe == self.items:
+            self.items = self.items.next
+        else:
+            trailer.next = probe.next
         # Decrement logical size
         self.size -= 1
