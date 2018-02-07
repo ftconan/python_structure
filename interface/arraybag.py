@@ -1,23 +1,27 @@
 # coding = utf-8
 
 from array_linked_list.arrays import Array
+from inherit_abstract.abstractbag import AbstractBag
 
 
-class ArrayBag(object):
+class ArrayBag(AbstractBag):
     """
     An array-based bag implementation.
     """
     DEFAULT_CAPACITY = 10
+
     def __init__(self, source_collection=None):
         """
         Sets the initial state of self, which includes the contents of source_collection,
         if it's present.
         """
+        # self.items = Array(ArrayBag.DEFAULT_CAPACITY)
+        # self.size = 0
+        # if source_collection:
+        #     for item in source_collection:
+        #         self.add(item)
         self.items = Array(ArrayBag.DEFAULT_CAPACITY)
-        self.size = 0
-        if source_collection:
-            for item in source_collection:
-                self.add(item)
+        AbstractBag.__init__(self, source_collection)
 
     def is_empty(self):
         """

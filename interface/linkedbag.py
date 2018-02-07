@@ -1,9 +1,10 @@
 # coding = utf-8
 
 from array_linked_list.node import Node
+from inherit_abstract.abstractbag import AbstractBag
 
 
-class LinkedBag(object):
+class LinkedBag(AbstractBag):
     """
     An link-based bag implementation.
     """
@@ -12,11 +13,13 @@ class LinkedBag(object):
         Sets the initial state of self, which includes the contents of source_collection,
         if it's present.
         """
+        # self.items = None
+        # self.size = 0
+        # if source_collection:
+        #     for item in source_collection:
+        #         self.add(item)
         self.items = None
-        self.size = 0
-        if source_collection:
-            for item in source_collection:
-                self.add(item)
+        AbstractBag.__init__(self, source_collection)
 
     def is_empty(self):
         """
